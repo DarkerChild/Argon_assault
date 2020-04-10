@@ -12,6 +12,7 @@ public class SplashScreen : MonoBehaviour
     void Start()
     {
         MoveToNextLevel();
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void MoveToNextLevel()
