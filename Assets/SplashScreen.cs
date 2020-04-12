@@ -8,11 +8,14 @@ public class SplashScreen : MonoBehaviour
 {
     [SerializeField] float LevelLoadDelayTiome = 2f;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     // Start is called before the first frame update
     void Start()
     {
         MoveToNextLevel();
-        DontDestroyOnLoad(this.gameObject);
     }
 
     private void MoveToNextLevel()
