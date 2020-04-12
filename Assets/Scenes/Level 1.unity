@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -5971,6 +5971,7 @@ GameObject:
   - component: {fileID: 2021347210}
   - component: {fileID: 2021347209}
   - component: {fileID: 2021347212}
+  - component: {fileID: 2021347213}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -6051,7 +6052,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021347208}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5cb22d331ef7d64796f917c6a455a32, type: 3}
   m_Name: 
@@ -6064,6 +6065,31 @@ MonoBehaviour:
   progressStyle: 0
   pointToPointThreshold: 4
   target: {fileID: 2021347211}
+--- !u!114 &2021347213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021347208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad07c1ac14576244e9fd262ebd4b6fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circuitObject: {fileID: 1484717976}
+  circuit: {fileID: 1484717976}
+  routeSpeed: 50
+  lookAheadDistance: 100
+  varyingSpeed: 0
+  initialSpeed: 0
+  rateOfChange: 1
+  waypointSpeedFactors: []
+  invokeMethods: 0
+  invokeWaypointEnabled: 
+  invokeNames: []
+  invokeDelay: []
+  invokeObject: []
 --- !u!1001 &8588082750635057655
 PrefabInstance:
   m_ObjectHideFlags: 0
