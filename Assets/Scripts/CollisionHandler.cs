@@ -27,6 +27,12 @@ public class CollisionHandler : MonoBehaviour
         SendMessage("StopMovement");
         deathFX.SetActive(true);
         Invoke("RestartLevel", loadLevelDelay);
+
+        //Reset level score
+        GameObject PlayerStats = GameObject.Find("PlayerStats");
+        PlayerStats playerStats = PlayerStats.GetComponent<PlayerStats>();
+        playerStats.LevelScore = 0;
+        print(playerStats.LevelScore);
     }
 
     private void RestartLevel()
