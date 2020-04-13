@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int LevelScore = 0;
-    public int GameScore = 0;
+    [SerializeField] float scorePerSecond = 100f;
+    public float LevelScore = 0;
+    public float GameScore = 0;
+
+    ScoreBoard scoreBoard;
 
     void Start()
     {
@@ -18,5 +21,19 @@ public class PlayerStats : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        scoreBoard = FindObjectOfType<ScoreBoard>();
+    }
+
+    void Update()
+    {
+        LevelScore += Mathf.FloorToInt(Time.deltaTime * scorePerSecond);
+        string scoreString = Mathf.FloorToInt(LevelScore).ToString();
+        scoreBoard.UpdateScoreDisplay(scoreString);
+    }
+
+    public void ChangeLevelScore(float scoreModifier)
+    {
+        LevelScore += scoreModifier;
+
     }
 }

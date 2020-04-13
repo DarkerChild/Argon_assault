@@ -6,12 +6,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] float enemyHealth = 50f;
+    [SerializeField] float enemyValue = 100f;
     [SerializeField] GameObject deathFX;
     // Start is called before the first frame update
+
+    PlayerStats playerStats;
 
     void Start()
     {
         AddBoxCollider();
+        playerStats = FindObjectOfType<PlayerStats>();
     }
 
 
@@ -38,13 +42,10 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject, 1f);
     }
 
-    private static void UpdatePlayerScore()
+    private void UpdatePlayerScore()
     {
         //Give player points
-        GameObject PlayerStats = GameObject.Find("PlayerStats");
-        PlayerStats playerStats = PlayerStats.GetComponent<PlayerStats>();
-        playerStats.LevelScore += 500;
-        print(playerStats.LevelScore);
+        playerStats.ChangeLevelScore(enemyValue);
     }
 
     private void DisableRenderedAndCollisions()
