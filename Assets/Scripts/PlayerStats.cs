@@ -20,13 +20,13 @@ public class PlayerStats : MonoBehaviour
         else
         {
             DontDestroyOnLoad(gameObject);
+            scoreBoard = FindObjectOfType<ScoreBoard>();
         }
-        scoreBoard = FindObjectOfType<ScoreBoard>();
     }
 
     void Update()
     {
-        LevelScore += Mathf.FloorToInt(Time.deltaTime * scorePerSecond);
+        LevelScore += Time.deltaTime * scorePerSecond;
         string scoreString = Mathf.FloorToInt(LevelScore).ToString();
         scoreBoard.UpdateScoreDisplay(scoreString);
     }
@@ -34,6 +34,5 @@ public class PlayerStats : MonoBehaviour
     public void ChangeLevelScore(float scoreModifier)
     {
         LevelScore += scoreModifier;
-
     }
 }

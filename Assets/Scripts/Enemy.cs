@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
         RunDeathFX();
         DisableRenderedAndCollisions();
         UpdatePlayerScore();
-        Destroy(gameObject, 1f);
+        Destroy(this.gameObject, 1f);
     }
 
     private void UpdatePlayerScore()

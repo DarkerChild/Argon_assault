@@ -32,7 +32,6 @@ public class CollisionHandler : MonoBehaviour
         GameObject PlayerStats = GameObject.Find("PlayerStats");
         PlayerStats playerStats = PlayerStats.GetComponent<PlayerStats>();
         playerStats.LevelScore = 0;
-        print(playerStats.LevelScore);
     }
 
     private void RestartLevel()
