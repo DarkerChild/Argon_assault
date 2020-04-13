@@ -4,21 +4,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [Tooltip("In ms^-1")] [SerializeField] float Speed = 20f;
-    [Tooltip("In m")] [SerializeField] float xRange = 4f;
-    [Tooltip("In m")] [SerializeField] float yRange = 4f;
-    [SerializeField] float positionPitchFactor = -5f;
+    [Header("General")]
+    [Tooltip("In ms^-1")] [SerializeField] float controlSpeed = 20f;
+    [Tooltip("In m")] [SerializeField] float xRange = 3.8f;
+    [Tooltip("In m")] [SerializeField] float yRange = 2.75f;
+
+    [Header("Contrl-based rotation")]
     [SerializeField] float controlPitchFactor = -20f;
-    [SerializeField] float positionYawFactor = 5f;
     [SerializeField] float controlRollFactor = -30f;
 
+    [Header("Position-based rotation")]
+    [SerializeField] float positionYawFactor = 5f;
+    [SerializeField] float positionPitchFactor = -5f;
+
+    //Non-serialized variables
     float xThrow, yThrow;
 
+    bool controlFrozen = false;
+
     void Update()
-    {        
-        UpdateShipMovement();
+    {
+        if (!controlFrozen)
+        {
+            UpdateShipMovement();
+        }
+
     }
 
     private void UpdateShipMovement()
@@ -28,13 +40,13 @@ public class Player : MonoBehaviour
     }
     private void ProcessTranslation()
     {
-        float xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
-        float xOffset = xThrow * Time.deltaTime * Speed;
+        xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
+        float xOffset = xThrow * Time.deltaTime * controlSpeed;
         float rawXPos = transform.localPosition.x + xOffset;
         float NewXPos = Mathf.Clamp(rawXPos, xRange * -1, xRange);
 
-        float yThrow = CrossPlatformInputManager.GetAxis("Vertical");
-        float yOffset = yThrow * Time.deltaTime * Speed;
+        yThrow = CrossPlatformInputManager.GetAxis("Vertical");
+        float yOffset = yThrow * Time.deltaTime * controlSpeed;
         float rawYPos = transform.localPosition.y + yOffset;
         float NewYPos = Mathf.Clamp(rawYPos, yRange * -1, yRange);
 
@@ -70,5 +82,8 @@ public class Player : MonoBehaviour
         transform.localRotation = Quaternion.Euler(Pitch, Yaw, roll);
     }
 
-
+    private void StopMovement()
+    {
+        controlFrozen = true;
+    }
 }
