@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
 
     PlayerStats playerStats;
+    float damageReceived;
 
     void Start()
     {
@@ -27,7 +28,9 @@ public class Enemy : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        enemyHealth = enemyHealth - enemyHealth;
+        damageReceived = other.GetComponent<Weapon>().damage;
+        print(gameObject.name + " took " + damageReceived.ToString() + " damage");
+        enemyHealth = enemyHealth - damageReceived;
         if (enemyHealth <= Mathf.Epsilon)
         {
             StartEnemyDeath();
@@ -45,7 +48,7 @@ public class Enemy : MonoBehaviour
     private void UpdatePlayerScore()
     {
         //Give player points
-        playerStats.ChangeLevelScore(enemyValue);
+        playerStats.AddLevelScore(enemyValue);
     }
 
     private void DisableRenderedAndCollisions()

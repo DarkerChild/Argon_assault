@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
         {
             UpdateShipMovement();
         }
-
     }
 
     private void UpdateShipMovement()
@@ -82,7 +81,7 @@ public class PlayerController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(Pitch, Yaw, roll);
     }
 
-    private void StopMovement()
+    void StopMovement()
     {
         controlFrozen = true;
     }

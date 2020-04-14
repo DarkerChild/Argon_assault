@@ -31,7 +31,7 @@ public class PlayerStats : MonoBehaviour
         scoreBoard.UpdateScoreDisplay(scoreString);
     }
 
-    public void ChangeLevelScore(float scoreModifier)
+    public void AddLevelScore(float scoreModifier)
     {
         LevelScore += scoreModifier;
     }
