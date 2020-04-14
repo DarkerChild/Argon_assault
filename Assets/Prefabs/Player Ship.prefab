@@ -425,11 +425,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Laser 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8588082752259572302, guid: 0eb5085106cdbef4a8b8778c88c0e435,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb5085106cdbef4a8b8778c88c0e435, type: 3}
 --- !u!4 &231737709461341933 stripped

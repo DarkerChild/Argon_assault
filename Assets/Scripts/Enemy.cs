@@ -28,16 +28,21 @@ public class Enemy : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        damageReceived = other.GetComponent<Weapon>().damage;
-        print(gameObject.name + " took " + damageReceived.ToString() + " damage");
-        enemyHealth = enemyHealth - damageReceived;
+        ProcessDamage(other);
         if (enemyHealth <= Mathf.Epsilon)
         {
-            StartEnemyDeath();
+            KillEnemy();
         }
     }
 
-    void StartEnemyDeath()
+    private void ProcessDamage(GameObject other)
+    {
+        damageReceived = other.GetComponent<Weapon>().damage;
+        print(gameObject.name + " took " + damageReceived.ToString() + " damage");
+        enemyHealth = enemyHealth - damageReceived;
+    }
+
+    public void KillEnemy()
     {
         RunDeathFX();
         DisableRenderedAndCollisions();
@@ -47,7 +52,6 @@ public class Enemy : MonoBehaviour
 
     private void UpdatePlayerScore()
     {
-        //Give player points
         playerStats.AddLevelScore(enemyValue);
     }
 

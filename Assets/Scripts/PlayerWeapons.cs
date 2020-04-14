@@ -35,17 +35,15 @@ public class PlayerWeapons : MonoBehaviour
 
     private void SetWeaponState(GameObject[] weaponsObjects)
     {
-        if (CrossPlatformInputManager.GetButtonDown("Fire1"))
+        if (CrossPlatformInputManager.GetButton("Fire1"))
         {
             ActivateLasers(weaponsObjects);
         }
-        else if (CrossPlatformInputManager.GetButtonUp("Fire1"))
+        else
         {
             DeactivateLasers(weaponsObjects);
         }
     }
-
-
 
     private void ActivateLasers(GameObject[] weaponsObjects)
     {
@@ -53,10 +51,10 @@ public class PlayerWeapons : MonoBehaviour
         {
             if (weapon.tag == "Laser") {
                 weaponParticleSystem = weapon.GetComponent<ParticleSystem>();
-                if (weaponParticleSystem.isStopped)
+                ParticleSystem.EmissionModule emission = weaponParticleSystem.emission;
+                if (!emission.enabled)
                 {
-                    print(weapon.name + " firing");
-                    weaponParticleSystem.Play();
+                    emission.enabled = true;
                 }
             }
         }
@@ -69,10 +67,10 @@ public class PlayerWeapons : MonoBehaviour
             if (weapon.tag == "Laser")
             {
                 weaponParticleSystem = weapon.GetComponent<ParticleSystem>();
-                if (weaponParticleSystem.isPlaying)
+                ParticleSystem.EmissionModule emission = weaponParticleSystem.emission;
+                if (emission.enabled)
                 {
-                    print(weapon.name + " stopped");
-                    weaponParticleSystem.Stop();
+                    emission.enabled = false;
                 }
             }
         }

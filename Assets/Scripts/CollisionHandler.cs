@@ -38,5 +38,7 @@ public class CollisionHandler : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+        //PlayerWeapons playerWeapons = GetComponent<PlayerWeapons>();
+        //playerWeapons.GetAllWeapons();
     }
 }
