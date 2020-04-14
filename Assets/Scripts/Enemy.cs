@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
         damageReceived = other.GetComponent<Weapon>().damage;
         print(gameObject.name + " took " + damageReceived.ToString() + " damage");
         enemyHealth = enemyHealth - damageReceived;
+        print(gameObject.name + " health =  " + enemyHealth.ToString());
     }
 
     public void KillEnemy()
