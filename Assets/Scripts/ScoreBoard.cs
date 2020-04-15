@@ -8,15 +8,24 @@ public class ScoreBoard : MonoBehaviour
     int score;
     Text scoreText;
 
+    PlayerStats PlayerStats;
+
     void Start()
     {
+        PlayerStats = FindObjectOfType<PlayerStats>();
         scoreText = GetComponent<Text>();
-        scoreText.text = 0.ToString();
+        scoreText.text = PlayerStats.LevelScore.ToString();
     }
 
-    public void UpdateScoreDisplay(string currentScore)
+    private void Update()
     {
-        scoreText = GetComponent<Text>();
-        scoreText.text = currentScore;
+        UpdateScoreDisplay();
+    }
+
+    public void UpdateScoreDisplay()
+    {
+        float LevelScore = PlayerStats.LevelScore;
+        string scoreString = Mathf.FloorToInt(LevelScore).ToString();
+        scoreText.text = scoreString.ToString();
     }
 }

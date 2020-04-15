@@ -38,9 +38,7 @@ public class Enemy : MonoBehaviour
     private void ProcessDamage(GameObject other)
     {
         damageReceived = other.GetComponent<Weapon>().damage;
-        print(gameObject.name + " took " + damageReceived.ToString() + " damage");
         enemyHealth = enemyHealth - damageReceived;
-        print(gameObject.name + " health =  " + enemyHealth.ToString());
     }
 
     public void KillEnemy()

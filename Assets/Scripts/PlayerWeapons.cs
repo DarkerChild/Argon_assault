@@ -8,7 +8,7 @@ public class PlayerWeapons : MonoBehaviour
 {
     GameObject weaponsParentObject;
     GameObject[] weaponsObjects;
-    ParticleSystem weaponParticleSystem;
+
 
     void Start()
     {
@@ -37,41 +37,21 @@ public class PlayerWeapons : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButton("Fire1"))
         {
-            ActivateLasers(weaponsObjects);
+            SetLasersActive(weaponsObjects, true);
         }
         else
         {
-            DeactivateLasers(weaponsObjects);
+            SetLasersActive(weaponsObjects, false);
         }
     }
 
-    private void ActivateLasers(GameObject[] weaponsObjects)
+    private void SetLasersActive(GameObject[] weaponsObjects, bool isActive)
     {
         foreach (GameObject weapon in weaponsObjects)
         {
             if (weapon.tag == "Laser") {
-                weaponParticleSystem = weapon.GetComponent<ParticleSystem>();
-                ParticleSystem.EmissionModule emission = weaponParticleSystem.emission;
-                if (!emission.enabled)
-                {
-                    emission.enabled = true;
-                }
-            }
-        }
-    }
-
-    private void DeactivateLasers(GameObject[] weaponSystems)
-    {
-        foreach (GameObject weapon in weaponSystems)
-        {
-            if (weapon.tag == "Laser")
-            {
-                weaponParticleSystem = weapon.GetComponent<ParticleSystem>();
-                ParticleSystem.EmissionModule emission = weaponParticleSystem.emission;
-                if (emission.enabled)
-                {
-                    emission.enabled = false;
-                }
+                var weaponParticleEmision = weapon.GetComponent<ParticleSystem>().emission;
+                weaponParticleEmision.enabled = isActive;
             }
         }
     }
