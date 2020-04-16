@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class ScoreBoard : MonoBehaviour
 {
-    int score;
+    float levelScore;
+    int lives;
     Text scoreText;
+    Text livesText;
 
     PlayerStats PlayerStats;
 
@@ -15,6 +17,7 @@ public class ScoreBoard : MonoBehaviour
         PlayerStats = FindObjectOfType<PlayerStats>();
         scoreText = GetComponent<Text>();
         scoreText.text = PlayerStats.LevelScore.ToString();
+        livesText = GetComponent<Text>();
     }
 
     private void Update()
@@ -24,8 +27,9 @@ public class ScoreBoard : MonoBehaviour
 
     public void UpdateScoreDisplay()
     {
-        float LevelScore = PlayerStats.LevelScore;
-        string scoreString = Mathf.FloorToInt(LevelScore).ToString();
+        levelScore = PlayerStats.LevelScore;
+        int Lives = PlayerStats.currentLives;
+        string scoreString = Mathf.FloorToInt(levelScore).ToString();
         scoreText.text = scoreString.ToString();
     }
 }

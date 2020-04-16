@@ -61,4 +61,9 @@ public class PlayerStats : MonoBehaviour
     {
         LevelScore = 0f;
     }
+
+    public void ResetLives()
+    {
+        currentLives = startingLives;
+    }
 }
