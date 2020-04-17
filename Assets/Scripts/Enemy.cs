@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour
         playerStats = FindObjectOfType<PlayerStats>();
     }
 
-
     void AddBoxCollider()
     {
         Collider enemyBoxCollider = gameObject.AddComponent<BoxCollider>();
@@ -30,6 +29,8 @@ public class Enemy : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
+        if (other.tag == "Enemy Weapon") return; //Make sure you can't be hit by other enemies!!
+
         ProcessDamage(other);
         if (enemyHealth <= Mathf.Epsilon)
         {
@@ -44,7 +45,7 @@ public class Enemy : MonoBehaviour
 
     private void ProcessDamage(GameObject other)
     {
-        damageReceived = other.GetComponent<Weapon>().damage;
+        damageReceived = other.GetComponent<PlayerWeaponDamage>().damage;
         enemyHealth = enemyHealth - damageReceived;
     }
 
@@ -61,7 +62,12 @@ public class Enemy : MonoBehaviour
     {
         if (pickUp)
         {
-            GameObject pickUpObject = Instantiate(pickUp, transform.position, Quaternion.identity);
+            float random = UnityEngine.Random.value;
+            print(random);
+            if (random > 0.7f)
+            {
+                GameObject pickUpObject = Instantiate(pickUp, transform.position, Quaternion.identity);
+            } 
         }
     }
 

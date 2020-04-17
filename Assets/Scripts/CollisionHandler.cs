@@ -12,22 +12,25 @@ public class CollisionHandler : MonoBehaviour
     float invulnerabilityTimeOnHit = 3f;
     int currentLives;
 
-    PlayerStats PlayerStats;
+    PlayerStats playerStats;
+    PlayerController playerController;
     BoxCollider BoxCollider;
     MeshRenderer MeshRenderer;
 
     private void Start()
     {
-        PlayerStats = FindObjectOfType<PlayerStats>();
+        playerStats = FindObjectOfType<PlayerStats>();
+        playerController = FindObjectOfType<PlayerController>();
         BoxCollider = gameObject.GetComponent<BoxCollider>();
         MeshRenderer = gameObject.GetComponent<MeshRenderer>();
     }
 
     void OnTriggerEnter(Collider collider)
     {
+        print(collider.gameObject.tag + " - OnParticleCollision");
         if (collider.gameObject.tag == "Pick Up") return;
 
-        currentLives = PlayerStats.currentLives;
+        currentLives = playerStats.currentLives;
         if (currentLives>0)
         {
             PlayerDamagedSequence();
@@ -38,10 +41,44 @@ public class CollisionHandler : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        print(collision.collider.gameObject.tag + " - OnParticleCollision");
+        if (collision.collider.gameObject.tag == "Pick Up") return;
+
+        currentLives = playerStats.currentLives;
+        if (currentLives > 0)
+        {
+            PlayerDamagedSequence();
+        }
+        else
+        {
+            StartDeathSequence();
+        }
+    }
+
+    
+    void OnParticleCollision(GameObject other)
+    {
+        print(other.tag + " - OnParticleCollision");
+        if ((other.tag == "Pick Up") || (other.tag == "Laser")) return;
+
+        currentLives = playerStats.currentLives;
+        if (currentLives > 0)
+        {
+            PlayerDamagedSequence();
+        }
+        else
+        {
+            StartDeathSequence();
+        }
+    }
+    
+
     private void PlayerDamagedSequence()
     {
-        PlayerStats.UpdateLives(-1);
         StartCoroutine(PlayerInvulnerable(invulnerabilityTimeOnHit, .2f));
+        playerStats.UpdateLives(-1);
     }
 
     IEnumerator PlayerInvulnerable(float duration, float blinkTime)
@@ -65,18 +102,25 @@ public class CollisionHandler : MonoBehaviour
 
     private void StartDeathSequence()
     {
-        SendMessage("StopMovement");
+        playerController.SetControlActive(false);
         deathFX.SetActive(true);
         MeshRenderer.enabled = false;
-        Invoke("RestartLevel", loadLevelDelay);
-        //Reset level score
-        PlayerStats.ResetLevelScore();
-        PlayerStats.ResetLives();
+        StartCoroutine(RestartLevel1(loadLevelDelay));
+
+
     }
 
-    private void RestartLevel()
+    IEnumerator RestartLevel1(float loadLevelDelay)
     {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
+        while (true)
+        {
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            yield return new WaitForSeconds(loadLevelDelay);
+            SceneManager.LoadScene(currentSceneIndex);
+
+            //Reset level score
+            playerStats.ResetLevelScore();
+            playerStats.ResetLives();
+        }
     }
 }

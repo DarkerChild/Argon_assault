@@ -5,16 +5,13 @@ Things to achieve
 2 - Fire weapons on mouse 1 (*think it already does) - done
 3 - Improve ship movement feel - done
 4 - decouple camera from movement gameobject - done
-5 - Make camera move in square
-6 - Make enemies target you
+5 - Make camera move in square - done
+6 - Make enemies target you - done
+
 
 7 - convert from timeline to camera roll (BIG JOB)
 
 3a - lerp rotation
 3b - prevent control rotation at position limits
+6a - make enemies shots damage you
 
-    private void CameraFollowShip(Transform t)
-    {
-        Vector3 localPos = transform.localPosition;
-        Vector3 targetLocalPos = t.transform.localPosition;
-    }

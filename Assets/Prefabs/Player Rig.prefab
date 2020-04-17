@@ -9938,7 +9938,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2488455646715138503}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d5db0a9bf44944dbe161e034a47aa4, type: 3}
+  m_Script: {fileID: 11500000, guid: c187f202e0406cc4f9ab69712e7494b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
@@ -14787,7 +14787,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2488455646973987884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d5db0a9bf44944dbe161e034a47aa4, type: 3}
+  m_Script: {fileID: 11500000, guid: c187f202e0406cc4f9ab69712e7494b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50

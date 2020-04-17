@@ -8,8 +8,12 @@ public class PlayerController : MonoBehaviour
 {
     [Header("General")]
     [Tooltip("In ms^-1")] [SerializeField] float controlSpeed = 20f;
-    //[Tooltip("In m")] [SerializeField] float xRange = 3.8f;
-    //[Tooltip("In m")] [SerializeField] float yRange = 2.75f;
+    [Tooltip("In ms^-1")] [SerializeField] int forwardNormalSpeed = 20;
+    [Tooltip("In ms^-1")] [SerializeField] int forwardFastSpeed = 40;
+    [Tooltip("In ms^-1")] [SerializeField] int forwardSlowSpeed = 10;
+    [Tooltip("m")] [SerializeField] int distFromCameraNormal = 5;
+    [Tooltip("m")] [SerializeField] int distFromCameraFast = 6;
+    [Tooltip("m")] [SerializeField] int distFromCameraSlow = 4;
 
     [Header("Contrl-based rotation")]
     [SerializeField] float controlPitchFactor = -20f;
@@ -22,12 +26,17 @@ public class PlayerController : MonoBehaviour
 
     //Non-serialized variables
     float xThrow, yThrow;
+    bool controlActive = true;
+    int currentSpeed;
 
-    bool controlFrozen = false;
+    private void Start()
+    {
+        currentSpeed = forwardNormalSpeed;
+    }
 
     void Update()
     {
-        if (!controlFrozen)
+        if (controlActive)
         {
             UpdateShipMovement();
         }
@@ -37,7 +46,37 @@ public class PlayerController : MonoBehaviour
     {
         ProcessTranslation();
         ProcessRotation();
+        ProcessFlightSpeed();
     }
+
+    private void ProcessFlightSpeed()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            currentSpeed = forwardFastSpeed;
+            transform.localPosition = SetDistanceFromCamera(distFromCameraFast);
+            //transform.position = new Vector3(transform.position.x,transform.position.y,((distFromCameraFast - transform.position.z) / 2) + transform.position.z);
+        }
+        else if (Input.GetKey(KeyCode.LeftControl))
+        {
+            currentSpeed = forwardSlowSpeed;
+            transform.localPosition = SetDistanceFromCamera(distFromCameraSlow);
+            //transform.position = new Vector3(transform.position.x, transform.position.y, ((distFromCameraSlow - transform.position.z) / 2) + transform.position.z);
+        }
+        else
+        {
+            currentSpeed = forwardNormalSpeed;
+            transform.localPosition = SetDistanceFromCamera(distFromCameraNormal);
+            //transform.position = new Vector3(transform.position.x, transform.position.y, ((distFromCameraNormal - transform.position.z) / 2) + transform.position.z);
+        }
+        print(currentSpeed);
+    }
+
+    private Vector3 SetDistanceFromCamera(float targetDist)
+    {
+        return new Vector3(transform.localPosition.x, transform.localPosition.y, ((targetDist - transform.localPosition.z) * Time.deltaTime * 2f) + transform.localPosition.z);
+    }
+
     private void ProcessTranslation()
     {
         xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
@@ -68,7 +107,11 @@ public class PlayerController : MonoBehaviour
 
         float roll = CrossPlatformInputManager.GetAxis("Horizontal") * controlRollFactor;
 
-        
         transform.localRotation = Quaternion.Euler(Pitch, Yaw, roll);
+    }
+
+    public void SetControlActive(bool isActive)
+    {
+        controlActive = isActive;
     }
 }

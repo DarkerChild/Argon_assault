@@ -7,6 +7,7 @@ TagManager:
   - Laser
   - Pick Up
   - Crosshair
+  - Enemy Weapon
   layers:
   - Default
   - TransparentFX

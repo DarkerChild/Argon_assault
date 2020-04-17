@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class PlayerWeaponDamage : MonoBehaviour
 {
     [SerializeField] public float damage = 50f;
 }
