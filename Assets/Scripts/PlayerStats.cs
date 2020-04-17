@@ -10,8 +10,6 @@ public class PlayerStats : MonoBehaviour
     public float GameScore = 0;
     public int currentLives;
 
-    ScoreBoard scoreBoard;
-
     void Start()
     {
         bool isSingleton = SingletonCheck();
@@ -23,7 +21,6 @@ public class PlayerStats : MonoBehaviour
 
     private void StartUpActions()
     {
-        scoreBoard = FindObjectOfType<ScoreBoard>();
         currentLives = startingLives;
     }
 

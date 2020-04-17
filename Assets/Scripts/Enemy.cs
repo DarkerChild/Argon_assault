@@ -7,11 +7,13 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] float enemyHealth = 50f;
     [SerializeField] float enemyValue = 100f;
-    [SerializeField] GameObject deathFX;
+    [SerializeField] GameObject deathFX = null;
+    [SerializeField] GameObject pickUp = null;
     // Start is called before the first frame update
 
     PlayerStats playerStats;
     float damageReceived;
+    bool isAlive = true;
 
     void Start()
     {
@@ -31,7 +33,12 @@ public class Enemy : MonoBehaviour
         ProcessDamage(other);
         if (enemyHealth <= Mathf.Epsilon)
         {
-            KillEnemy();
+            //Prevent duplication of this funciton when hit by multiple attacks at the same time.
+            if (isAlive)
+            {
+                isAlive = false;
+                KillEnemy();
+            }
         }
     }
 
@@ -44,9 +51,18 @@ public class Enemy : MonoBehaviour
     public void KillEnemy()
     {
         RunDeathFX();
-        DisableRenderedAndCollisions();
+        DisableRendererAndCollider();
         UpdatePlayerScore();
-        Destroy(this.gameObject, 1f);
+        Destroy(gameObject, 1f);
+        DropPickUp();
+    }
+
+    private void DropPickUp()
+    {
+        if (pickUp)
+        {
+            GameObject pickUpObject = Instantiate(pickUp, transform.position, Quaternion.identity);
+        }
     }
 
     private void UpdatePlayerScore()
@@ -54,7 +70,7 @@ public class Enemy : MonoBehaviour
         playerStats.AddLevelScore(enemyValue);
     }
 
-    private void DisableRenderedAndCollisions()
+    private void DisableRendererAndCollider()
     {
         //Disable rendering and collision
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();

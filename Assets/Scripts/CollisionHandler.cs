@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class CollisionHandler : MonoBehaviour
 {
     [Tooltip("In seconds")] [SerializeField] float loadLevelDelay = 1f;
-    [Tooltip("Death Effects Object")] [SerializeField] GameObject deathFX;
+    [Tooltip("Death Effects Object")] [SerializeField] GameObject deathFX = null;
 
     float invulnerabilityTimeOnHit = 3f;
     int currentLives;
@@ -15,8 +15,6 @@ public class CollisionHandler : MonoBehaviour
     PlayerStats PlayerStats;
     BoxCollider BoxCollider;
     MeshRenderer MeshRenderer;
-
-
 
     private void Start()
     {
@@ -27,6 +25,8 @@ public class CollisionHandler : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        if (collider.gameObject.tag == "Pick Up") return;
+
         currentLives = PlayerStats.currentLives;
         if (currentLives>0)
         {
@@ -41,7 +41,7 @@ public class CollisionHandler : MonoBehaviour
     private void PlayerDamagedSequence()
     {
         PlayerStats.UpdateLives(-1);
-        StartCoroutine(PlayerInvulnerable(2f, .2f));
+        StartCoroutine(PlayerInvulnerable(invulnerabilityTimeOnHit, .2f));
     }
 
     IEnumerator PlayerInvulnerable(float duration, float blinkTime)
@@ -50,7 +50,6 @@ public class CollisionHandler : MonoBehaviour
         {
             BoxCollider.enabled = false;
             duration -= (Time.deltaTime + blinkTime);
-            print(duration.ToString());
 
             //toggle renderer
             MeshRenderer.enabled = !MeshRenderer.enabled;

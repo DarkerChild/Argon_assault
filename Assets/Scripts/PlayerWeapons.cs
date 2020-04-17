@@ -6,19 +6,19 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerWeapons : MonoBehaviour
 {
+    [SerializeField] int aimDistance = 500;
+    [SerializeField] int crosshairDistance = 50;
+
     GameObject weaponsParentObject;
     GameObject[] weaponsObjects;
 
+    GameObject crosshair;
 
     void Start()
     {
         weaponsParentObject = GetChildWithName(gameObject, "Weapons");
         weaponsObjects = GetAllWeapons();
-    }
-
-    void Update()
-    {
-        SetWeaponState(weaponsObjects);
+        crosshair = GameObject.Find("Crosshair");
     }
 
     public GameObject[] GetAllWeapons()
@@ -26,11 +26,45 @@ public class PlayerWeapons : MonoBehaviour
         GameObject[] weaponsObjects = new GameObject[weaponsParentObject.transform.childCount];
         for (int i = 0; i < weaponsParentObject.transform.childCount; i++)
         {
+
             Transform weaponsObjectTransform = weaponsParentObject.transform;
             Transform weaponTransform = weaponsObjectTransform.GetChild(i);
             weaponsObjects[i] = weaponTransform.gameObject;
         }
         return weaponsObjects;
+    }
+
+    void Update()
+    {
+        AimWeapons();
+        AimCrosshair();
+        SetWeaponState(weaponsObjects);
+    }
+
+    private void AimWeapons()
+    {
+        //Aim the weapons
+        foreach(GameObject weapon in weaponsObjects)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            //Ray ray = new Ray(gameObject.transform.position, Input.mousePosition - gameObject.transform.position);
+            //Debug.DrawRay(gameObject.transform.position, Input.mousePosition - gameObject.transform.position);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            weapon.transform.LookAt(ray.GetPoint(aimDistance));
+        }
+    }
+
+    private void AimCrosshair()
+    {
+        //Ray ray = new Ray(gameObject.transform.position, Input.mousePosition - gameObject.transform.position);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector3 cameraPosition = Camera.main.transform.position;
+        Vector3 shipPosition = gameObject.transform.position;
+        Vector3 rayAimPosition = ray.GetPoint(crosshairDistance);
+
+        crosshair.transform.position = rayAimPosition - cameraPosition + shipPosition;
+        crosshair.transform.LookAt(ray.origin);
     }
 
     private void SetWeaponState(GameObject[] weaponsObjects)
@@ -50,7 +84,7 @@ public class PlayerWeapons : MonoBehaviour
         foreach (GameObject weapon in weaponsObjects)
         {
             if (weapon.tag == "Laser") {
-                var weaponParticleEmision = weapon.GetComponent<ParticleSystem>().emission;
+                ParticleSystem.EmissionModule weaponParticleEmision = weapon.GetComponent<ParticleSystem>().emission;
                 weaponParticleEmision.enabled = isActive;
             }
         }
@@ -69,5 +103,4 @@ public class PlayerWeapons : MonoBehaviour
             return null;
         }
     }
-
 }

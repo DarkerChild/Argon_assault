@@ -1,19 +1,34 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.CrossPlatformInput;
+
 
 public class SceneLoader : MonoBehaviour
 {
-    [SerializeField] float LevelLoadDelayTiome = 2f;
+    [SerializeField] float LevelLoadDelayTime = 2f;
 
-    void Start()
+    private void Update()
     {
-        Invoke("LoadNextLevel", LevelLoadDelayTiome);
+        CheckSpacePressed();
     }
 
-    private void LoadNextLevel()
+    private void CheckSpacePressed()
     {
-        SceneManager.LoadScene(1);
+        if (CrossPlatformInputManager.GetButtonDown("Fire1"))
+        {
+            StartCoroutine(LoadNextLevel(LevelLoadDelayTime));
+        }
+    }
+
+    IEnumerator LoadNextLevel(float delay)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(delay);
+            SceneManager.LoadScene(1);
+        }
     }
 }

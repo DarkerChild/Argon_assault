@@ -3,7 +3,11 @@ guid: 0b4b645b3a826d248b9c4e4f6f0d9296
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - deathFX: {fileID: 6113106214523635817, guid: 348878374e43d1040a57d3c44bcbde40,
+      type: 3}
+  - pickUp: {fileID: 7056094577470909864, guid: 21a09e53943424246b3bd9cf3367de0b,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

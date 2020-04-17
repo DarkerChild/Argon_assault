@@ -8,12 +8,13 @@ public class PlayerController : MonoBehaviour
 {
     [Header("General")]
     [Tooltip("In ms^-1")] [SerializeField] float controlSpeed = 20f;
-    [Tooltip("In m")] [SerializeField] float xRange = 3.8f;
-    [Tooltip("In m")] [SerializeField] float yRange = 2.75f;
+    //[Tooltip("In m")] [SerializeField] float xRange = 3.8f;
+    //[Tooltip("In m")] [SerializeField] float yRange = 2.75f;
 
     [Header("Contrl-based rotation")]
     [SerializeField] float controlPitchFactor = -20f;
     [SerializeField] float controlRollFactor = -30f;
+    [SerializeField] float controlYawFactor = -30f;
 
     [Header("Position-based rotation")]
     [SerializeField] float positionYawFactor = 5f;
@@ -40,49 +41,34 @@ public class PlayerController : MonoBehaviour
     private void ProcessTranslation()
     {
         xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
-        float xOffset = xThrow * Time.deltaTime * controlSpeed;
-        float rawXPos = transform.localPosition.x + xOffset;
-        float NewXPos = Mathf.Clamp(rawXPos, xRange * -1, xRange);
-
         yThrow = CrossPlatformInputManager.GetAxis("Vertical");
-        float yOffset = yThrow * Time.deltaTime * controlSpeed;
-        float rawYPos = transform.localPosition.y + yOffset;
-        float NewYPos = Mathf.Clamp(rawYPos, yRange * -1, yRange);
 
-        transform.localPosition = new Vector3(NewXPos, NewYPos, transform.localPosition.z);
-        
+        transform.localPosition += new Vector3(xThrow, yThrow, 0) * Time.deltaTime * controlSpeed;
+
+        ClampPosition();
     }
+
+    private void ClampPosition()
+    {
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp(pos.x, 0.1f, 0.9f);
+        pos.y = Mathf.Clamp(pos.y, 0.1f, 0.9f);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
+    }
+
     private void ProcessRotation()
     {
-        float controlPitch;
-        if ((transform.localPosition.y != yRange) && (transform.localPosition.y != yRange*-1))
-        {
-            controlPitch = CrossPlatformInputManager.GetAxis("Vertical") * controlPitchFactor;
-        }
-        else
-        {
-            controlPitch = 0f;
-        }
+        float controlPitch = CrossPlatformInputManager.GetAxis("Vertical") * controlPitchFactor;
         float positionPitch = transform.localPosition.y * positionPitchFactor;
-
         float Pitch = positionPitch + controlPitch;
-        float Yaw = transform.localPosition.x * positionYawFactor;
-        float roll;
-        if ((transform.localPosition.x != xRange) && (transform.localPosition.x != xRange*-1))
-        {
-            roll = CrossPlatformInputManager.GetAxis("Horizontal") * controlRollFactor;
-        }
-        else
-        {
-            roll = 0f;
-        }
+
+        float controlYaw = CrossPlatformInputManager.GetAxis("Horizontal") * controlYawFactor;
+        float positionYaw = transform.localPosition.x * positionYawFactor; ;
+        float Yaw = controlYaw + positionYaw;
+
+        float roll = CrossPlatformInputManager.GetAxis("Horizontal") * controlRollFactor;
+
         
-
         transform.localRotation = Quaternion.Euler(Pitch, Yaw, roll);
-    }
-
-    void StopMovement()
-    {
-        controlFrozen = true;
     }
 }
