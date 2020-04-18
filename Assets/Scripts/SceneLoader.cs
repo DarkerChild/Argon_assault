@@ -13,6 +13,11 @@ public class SceneLoader : MonoBehaviour
     private void Update()
     {
         CheckSpacePressed();
+
+        int score = 99;
+        int desiredLength = 9;
+        String yourString = "00000000" + score.ToString();
+        String yourFormattedString = yourString.Substring(yourString.Length - desiredLength, yourString.Length);
     }
 
     private void CheckSpacePressed()
@@ -32,3 +37,4 @@ public class SceneLoader : MonoBehaviour
         }
     }
 }
+

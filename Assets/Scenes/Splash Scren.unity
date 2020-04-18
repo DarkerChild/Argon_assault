@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d8820594dac1a4f91c97e1a08fdad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelLoadDelayTime: 2
+  LevelLoadDelayTime: 1
 --- !u!4 &128389438
 Transform:
   m_ObjectHideFlags: 0

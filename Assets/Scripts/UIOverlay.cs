@@ -44,7 +44,7 @@ public class UIOverlay : MonoBehaviour
         livesText = livesObject.GetComponent<Text>();
     }
 
-    private void Update()
+    void Update()
     {
         UpdateUIElements();
     }
